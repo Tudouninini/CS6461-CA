@@ -18,7 +18,7 @@ public class MemoryManageUnit {
         return memory.get(slot);
     }
 
-    public void writeMemo(int slot, int value) {
+    private void writeMemo(int slot, int value) {
         this.memory.set(slot, value);
     }
 

@@ -4,7 +4,7 @@ import cpu.Registers;
 import memory.MemoryManageUnit;
 
 public interface Calculate {
-    public static int computeEA(int i, int ix, Registers registers, int address, MemoryManageUnit mmu) {
+     static int computeEA(int i, int ix, Registers registers, int address, MemoryManageUnit mmu) {
         int ea = 0;
         if (i == 0) {
             if (ix == 0) {
