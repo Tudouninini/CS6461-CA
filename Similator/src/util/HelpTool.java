@@ -1,10 +1,13 @@
 package util;
 
 import cpu.Registers;
+import javafx.scene.control.RadioButton;
 import memory.MemoryManageUnit;
 
-public interface Calculate {
-     static int computeEA(int i, int ix, Registers registers, int address, MemoryManageUnit mmu) {
+import java.util.ArrayList;
+
+public interface HelpTool {
+    static int computeEA(int i, int ix, Registers registers, int address, MemoryManageUnit mmu) {
         int ea = 0;
         if (i == 0) {
             if (ix == 0) {
@@ -26,5 +29,15 @@ public interface Calculate {
         }
         return ea;
     }
+
+
+
+//    static ArrayList<RadioButton> GenerateRadioButtonByName(String startName) {
+//        ArrayList<RadioButton> rbList=new ArrayList<>();
+//        for(int i=16;i>0;i--){
+//
+//
+//        }
+//    }
 
 }

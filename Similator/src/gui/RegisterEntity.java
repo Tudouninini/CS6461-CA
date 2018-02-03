@@ -4,6 +4,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 
 import java.util.ArrayList;
 
@@ -15,13 +18,18 @@ public class RegisterEntity {
 
     public RegisterEntity(String labelName) {
         label = new Label(labelName);
+        Font font = Font.font("Monaco", FontWeight.BOLD, FontPosture.ITALIC, 13);
+        label.setFont(font);
         textField = new TextField("");
-        textField.setMaxWidth(55);
+        textField.setMaxWidth(60);
+        textField.setMaxHeight(15);
 
         depositButton = new Button("Deposit");
+        depositButton.setFont(new Font("Monaco", 11));
         rbList = new ArrayList<>();
         for (int i = 0; i < 16; i++) {
-            rbList.add(new RadioButton(""));
+            RadioButton rb = new RadioButton("");
+            rbList.add(rb);
         }
 
     }

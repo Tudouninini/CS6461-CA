@@ -313,7 +313,7 @@ public class Registers {
 
 
     public static void main(String[] args) {
-//        Registers r = new Registers();
-//        System.out.println(r.getBinaryStringIr());
+        Registers r = new Registers();
+        System.out.println(r.getBinaryStringIr());
     }
 }

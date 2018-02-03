@@ -1,20 +1,39 @@
 package gui;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-
-import javafx.scene.layout.*;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import util.Transform;
 
 
 public class GUI extends Application {
+    private HBox topMenu;
+    private HBox topLeftMenu;
+    private HBox topRightMenu;
     private GridPane centerGrid;
+    private HBox bottomMenu;
+    private VBox bottomLeftMenu;
+    private VBox bottomMiddleMenu;
+    private VBox bottomRightMenu;
+    private VBox leftMenu;
+    private VBox rightMenu;
     private Button resetBt;
+    private Button btRun;
+    private Button btSingleStep;
+    private Button btTemp3;
+    private Button btTemp4;
+    private TableView<MemoryEntity> memoryTable;
+    private TextArea instructionLog;
     private RegisterEntity pcEntity;
     private RegisterEntity ccEntity;
     private RegisterEntity marEntity;
@@ -28,27 +47,9 @@ public class GUI extends Application {
     private RegisterEntity r1Entity;
     private RegisterEntity r2Entity;
     private RegisterEntity r3Entity;
-//    private RegisterEntity cc;
-
-    public static void main(String[] args) {
-        launch(args);
-    }
 
 
-    private void depositToDisplay(RegisterEntity register) {
-        register.getDepositButton().setOnAction(e -> {
-            String binaryStr = getBinaryStrByDeposit(register);
-            setRatioButtonsByBinaryStr(register, binaryStr);
-        });
-    }
-
-    public void resetRegister(RegisterEntity entity) {
-
-        setRatioButtonsByBinaryStr(entity, "0000000000000000");
-        entity.getTextField().clear();
-
-    }
-
+    //    private RegisterEntity cc;
     public void resetAllRegister() {
         setRatioButtonsByBinaryStr(pcEntity, "0000000000000000");
         setRatioButtonsByBinaryStr(ccEntity, "0000000000000000");
@@ -78,6 +79,19 @@ public class GUI extends Application {
         r3Entity.getTextField().clear();
     }
 
+    public void resetRegister(RegisterEntity entity) {
+
+        setRatioButtonsByBinaryStr(entity, "0000000000000000");
+        entity.getTextField().clear();
+
+    }
+
+    private void depositToDisplay(RegisterEntity register) {
+        register.getDepositButton().setOnAction(e -> {
+            String binaryStr = getBinaryStrByDeposit(register);
+            setRatioButtonsByBinaryStr(register, binaryStr);
+        });
+    }
 
     private String getBinaryStrByDeposit(RegisterEntity register) {
         try {
@@ -109,7 +123,6 @@ public class GUI extends Application {
 
     }
 
-
     public void positionEntityInLayout(RegisterEntity entity, int rowIndex) {
         GridPane.setConstraints(entity.getLabel(), 0, rowIndex);
         for (int i = 0; i < 16; i++) {
@@ -119,7 +132,7 @@ public class GUI extends Application {
         GridPane.setConstraints(entity.getDepositButton(), 18, rowIndex);
     }
 
-    public void addEntityIntoLayout(RegisterEntity entity) {
+    public void addEntityToCenterGrid(RegisterEntity entity) {
         centerGrid.getChildren().add(entity.getLabel());
         for (int i = 0; i < 16; i++) {
             centerGrid.getChildren().add(entity.getRblist().get(i));
@@ -128,13 +141,7 @@ public class GUI extends Application {
         centerGrid.getChildren().add(entity.getDepositButton());
     }
 
-
-    @Override
-
-    public void start(Stage window) throws Exception {
-        window.setTitle("CPU SIMULATOR FOR CS6461");
-        String[] rigisterLabels = {"PC", "CC", "MAR", "MBR", "MSR", "MFR", "X1", "X2", "X3", "R0", "R1", "R2", "R3"};
-
+    public void initializeRegisterEntities() {
         pcEntity = new RegisterEntity("PC");
         ccEntity = new RegisterEntity("CC");
         marEntity = new RegisterEntity("MAR");
@@ -165,23 +172,6 @@ public class GUI extends Application {
         depositToDisplay(r3Entity);
 
 
-        BorderPane borderPane = new BorderPane();
-        Label bottom = new Label("bottom");
-        Label top = new Label("top");
-        resetBt = new Button("Reset");
-        resetBt.setOnAction(e -> resetAllRegister());
-        Label left = new Label("left");
-        Label right = new Label("right");
-        HBox topMenu = new HBox();
-        HBox bottomMenu = new HBox();
-        VBox leftMenu = new VBox();
-        VBox rightMenu = new VBox();
-        centerGrid = new GridPane();
-        centerGrid.setPadding(new Insets(50, 80, 40, 70));
-        centerGrid.setVgap(8);
-        centerGrid.setHgap(9);
-        //put the label first
-
         positionEntityInLayout(pcEntity, 0);
         positionEntityInLayout(ccEntity, 1);
         positionEntityInLayout(marEntity, 2);
@@ -197,63 +187,135 @@ public class GUI extends Application {
         positionEntityInLayout(r3Entity, 12);
 
 
-        addEntityIntoLayout(pcEntity);
-        addEntityIntoLayout(ccEntity);
-        addEntityIntoLayout(marEntity);
-        addEntityIntoLayout(mbrEntity);
-        addEntityIntoLayout(msrEntity);
-        addEntityIntoLayout(mfrEntity);
-        addEntityIntoLayout(x1Entity);
-        addEntityIntoLayout(x2Entity);
-        addEntityIntoLayout(x3Entity);
-        addEntityIntoLayout(r0Entity);
-        addEntityIntoLayout(r1Entity);
-        addEntityIntoLayout(r2Entity);
-        addEntityIntoLayout(r3Entity);
+        addEntityToCenterGrid(pcEntity);
+        addEntityToCenterGrid(ccEntity);
+        addEntityToCenterGrid(marEntity);
+        addEntityToCenterGrid(mbrEntity);
+        addEntityToCenterGrid(msrEntity);
+        addEntityToCenterGrid(mfrEntity);
+        addEntityToCenterGrid(x1Entity);
+        addEntityToCenterGrid(x2Entity);
+        addEntityToCenterGrid(x3Entity);
+        addEntityToCenterGrid(r0Entity);
+        addEntityToCenterGrid(r1Entity);
+        addEntityToCenterGrid(r2Entity);
+        addEntityToCenterGrid(r3Entity);
+    }
+
+    public void initializeGeneralButtons() {
+        resetBt = new Button("Reset");
+
+        btRun = new Button("Run");
+        btSingleStep = new Button("SS");
+        btTemp3 = new Button("b3");
+        btTemp4 = new Button("b4");
+        btRun.setPrefWidth(60);
+        resetBt.setPrefWidth(60);
+        btSingleStep.setPrefWidth(60);
+        btTemp3.setPrefWidth(60);
+        btTemp4.setPrefWidth(60);
+        resetBt.setOnAction(e -> resetAllRegister());
+    }
+
+    public ObservableList<MemoryEntity> getMemoryList() {
+        ObservableList<MemoryEntity> memoryList = FXCollections.observableArrayList();
+        for (int i = 0; i < 2048; i++) {
+            MemoryEntity memory = new MemoryEntity(i, 0);
+            memoryList.add(memory);
+
+        }
+        return memoryList;
+    }
+
+    public void initializeMemoryTable() {
+        //name column
+        TableColumn<MemoryEntity, String> addressColumn = new TableColumn<>("Address");
+        addressColumn.setPrefWidth(123);
+        addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+        TableColumn<MemoryEntity, String> contentColumn = new TableColumn<>("Content");
+        contentColumn.setPrefWidth(123);
+        contentColumn.setCellValueFactory(new PropertyValueFactory<>("content"));
+        //noinspection unchecked'
+
+        memoryTable = new TableView<>();
+        memoryTable.setItems(getMemoryList());
+        //noinspection unchecked
+        memoryTable.getColumns().addAll(addressColumn, contentColumn);
+
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+
+    public void start(Stage window) throws Exception {
+        window.setTitle("CPU SIMULATOR FOR CS6461");
+        String[] rigisterLabels = {"PC", "CC", "MAR", "MBR", "MSR", "MFR", "X1", "X2", "X3", "R0", "R1", "R2", "R3"};
+
+        BorderPane borderPane = new BorderPane();
+        Label bottom = new Label("bottom");
 
 
-//        centerGrid.getChildren().addAll(ccEntity, ir, mar, mbr, msr, mfr, x1, x2, x3, r0, r1, r2, r3);
-        topMenu.getChildren().addAll(top, resetBt);
+        Label left = new Label("left");
+
+        instructionLog = new TextArea();
+        instructionLog.setMaxHeight(90);
+        instructionLog.setMaxWidth(290);
+        instructionLog.setScrollLeft(5);
+
+
+        topMenu = new HBox();
+        topLeftMenu = new HBox();
+        topRightMenu = new HBox();
+        leftMenu = new VBox();
+        rightMenu = new VBox();
+        bottomMenu = new HBox();
+
+
+        centerGrid = new GridPane();
+        centerGrid.setPadding(new Insets(8, 0, 70, 40));
+        centerGrid.setVgap(8);
+        centerGrid.setHgap(8);
+        bottomLeftMenu = new VBox();
+        bottomRightMenu = new VBox();
+        bottomMiddleMenu = new VBox(instructionLog);
+
+        rightMenu.setPadding(new Insets(10, 40, 20, 20));
+        bottomMenu.setPadding(new Insets(-60));
+        bottomMiddleMenu.setPadding(new Insets(60));
+        topLeftMenu.setAlignment(Pos.CENTER_LEFT);
+        topLeftMenu.setPadding(new Insets(30, 90, 10, 110));
+        topLeftMenu.setSpacing(43);
+        topRightMenu.setSpacing(15);
+
+        initializeRegisterEntities();
+        initializeGeneralButtons();
+        initializeMemoryTable();
+        topRightMenu.setAlignment(Pos.CENTER_RIGHT);
+        topRightMenu.setPadding(new Insets(30, 20, 0, 290));
+
+        rightMenu.getChildren().addAll(memoryTable);/**/
+        topLeftMenu.getChildren().addAll(resetBt, btRun, btSingleStep, btTemp3, btTemp4);
+        bottomMenu.getChildren().addAll(bottomLeftMenu, bottomMiddleMenu, bottomRightMenu);
+        topMenu.getChildren().add(topLeftMenu);
+        topMenu.getChildren().add(topRightMenu);
         bottomMenu.getChildren().add(bottom);
         leftMenu.getChildren().add(left);
-        rightMenu.getChildren().add(right);
+
+
+        borderPane.setPadding(new Insets(20, 60, 50, 60));
         borderPane.setTop(topMenu);
         borderPane.setCenter(centerGrid);
+        borderPane.setBottom(bottomMenu);
         borderPane.setLeft(leftMenu);
         borderPane.setRight(rightMenu);
-        borderPane.setBottom(bottomMenu);
+
         Scene scene = new Scene(borderPane, 1217, 726);
+        scene.getStylesheets().add("gui/style.css");
         window.setScene(scene);
         window.show();
     }
-    //    public void start(Stage primaryStage) throws Exception {
-//        window = primaryStage;
-//        window.setTitle("CPU SIMULATOR By Group 9");
-//        //Scene 1 :
-//        Label label1 = new Label("This is a label");
-//        button1 = new Button("RUN");
-//        button1.setOnAction(event -> {
-//                    window.setScene(scene2);
-//                }
-//        );
-//        StackPane layout1 = new StackPane();
-//        layout1.getChildren().addAll(button1, label1);
-//        scene1 = new Scene(layout1, 500, 300);
-//
-//        //scene 2 :
-//        Label label2 = new Label("This is the another label");
-//        button2 = new Button("QUIT and switch to scene2");
-//        button2.setOnAction(e -> {
-//            window.setScene(scene1);
-//        });
-//        StackPane layout2 = new StackPane();
-//        layout2.getChildren().addAll(label2, button2);
-//
-//        scene2 = new Scene(layout2, 100, 100);
-//
-//
-//        window.setScene(scene1);
-//        window.show();
-//    }
 
 }
