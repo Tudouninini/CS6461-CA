@@ -10,8 +10,16 @@ public class MemoryManageUnit {
 
     public MemoryManageUnit() {
         this.memory = new ArrayList<>();
-        for (int i = 0; i < 2048; i++) memory.add(0);
+        for (int i = 0; i < 2048; i++) memory.add(10);
 
+    }
+
+    public ArrayList<Integer> getMemory() {
+        return memory;
+    }
+
+    public void setMemory(ArrayList<Integer> memory) {
+        this.memory = memory;
     }
 
     public int readMemo(int slot) {

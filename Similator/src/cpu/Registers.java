@@ -19,12 +19,8 @@ public class Registers {
     private int r3;
 
 
-
-
-
-
     public Registers() {
-        this.pc = 0;
+        this.pc = 8;
         this.ir = 0;
         this.cc = 0;
         this.mar = 0;
@@ -312,8 +308,4 @@ public class Registers {
     }
 
 
-    public static void main(String[] args) {
-        Registers r = new Registers();
-        System.out.println(r.getBinaryStringIr());
-    }
 }

@@ -21,11 +21,13 @@ public class RegisterEntity {
         Font font = Font.font("Monaco", FontWeight.BOLD, FontPosture.ITALIC, 13);
         label.setFont(font);
         textField = new TextField("");
+        textField.setDisable(true);
         textField.setMaxWidth(60);
         textField.setMaxHeight(15);
 
         depositButton = new Button("Deposit");
         depositButton.setFont(new Font("Monaco", 11));
+        depositButton.setDisable(true);
         rbList = new ArrayList<>();
         for (int i = 0; i < 16; i++) {
             RadioButton rb = new RadioButton("");
