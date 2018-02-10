@@ -1,13 +1,16 @@
 package instructions;
 
-import memory.MemoryManageUnit;
 import cpu.Registers;
+import memory.MemoryManageUnit;
+
 //The Instruction is a super class for all kinds of instruction.
 //
 public abstract class Instruction {
+    public abstract int executeSingleStep(String instruction, Registers registers, MemoryManageUnit mmu, int control);
+
 
     /*execute(): Execute instruction
-    */
+     */
 
     //* @param instruction: the instruction information which is 16 bits.
 

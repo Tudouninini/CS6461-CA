@@ -8,12 +8,17 @@ public class HLT extends Instruction {
 
     @Override
     public void execute(String instruction, Registers registers, MemoryManageUnit mmu) {
-        if (instruction.substring(0, 6).equals("000000")) System.out.println("HALT");
-        //todo- end process
+
+    }
+
+    @Override
+    public int executeSingleStep(String instruction, Registers registers, MemoryManageUnit mmu, int control) {
+        return 0;
     }
 
     @Override
     public String getExecuteInfo() {
         return "HALT";
     }
+
 }

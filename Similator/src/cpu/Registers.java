@@ -20,7 +20,7 @@ public class Registers {
 
 
     public Registers() {
-        this.pc = 8;
+        this.pc = 6;
         this.ir = 0;
         this.cc = 0;
         this.mar = 0;

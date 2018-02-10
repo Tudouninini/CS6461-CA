@@ -10,7 +10,7 @@ public class MemoryManageUnit {
 
     public MemoryManageUnit() {
         this.memory = new ArrayList<>();
-        for (int i = 0; i < 2048; i++) memory.add(10);
+        for (int i = 0; i < 2048; i++) memory.add(0);
 
     }
 
@@ -26,7 +26,7 @@ public class MemoryManageUnit {
         return memory.get(slot);
     }
 
-    private void writeMemo(int slot, int value) {
+    public void writeMemo(int slot, int value) {
         this.memory.set(slot, value);
     }
 
