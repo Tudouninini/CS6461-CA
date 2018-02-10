@@ -30,6 +30,9 @@ public class MemoryManageUnit {
         this.memory.set(slot, value);
     }
 
+    /**
+	 * Load from ROM and store the instructions after octal 10
+	 */
     public void load(HashMap<String, Integer> program) {
         if (program != null) {
             for (Map.Entry<String, Integer> temp : program.entrySet()) {
