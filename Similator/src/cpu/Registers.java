@@ -3,22 +3,34 @@ package cpu;
 import util.Transform;
 
 public class Registers {
-    private int pc;
-    private int cc;
-    private int ir;
-    private int mar;
-    private int mbr;
-    private int msr;
+    private int pc;  //Program Counter: address of next instruction to be executed. 12 bits.
+    private int cc;  //Condition Code: set when the arithmetic/logical operations are executed. 4 bits.
+    private int ir;  //Instruction Register: holds the instruction to be executed. 16 bits.
+    private int mar;  //Memory Address Register: holds the address of the word to be fetched frommemory. 16 bits
+    private int mbr;  //Memory Buffer Register: holds the word just fetched from or the word to be /last stored into memory. 16 bits
+    private int msr;  //Machine Status Register: certain bits record the status of the health of the machine. 16 bits.
+    
+    /*
+     * Machine Fault Register: contains the ID code if a machine fault after it
+     * occurs.<br/>
+     * 4 bits.<br/>
+     * 0 - Illegal Memory Address to Reserved Locations;<br/>
+     * 1 - Illegal TRAP code;<br/>
+     * 2 - Illegal Operation Code;<br/>
+     * 3 - Illegal Memory Address beyond 2048 (memory installed).
+     */
     private int mfr;
-    private int x1;
-    private int x2;
-    private int x3;
-    private int r0;
-    private int r1;
-    private int r2;
-    private int r3;
+    
+    private int x1;  //Index Register X1. 16 bits.
+    private int x2;  //Index Register X2. 16 bits.
+    private int x3;  //Index Register X3. 16 bits.
+    private int r0;  //General Purpose Register R0. 16 bits.
+    private int r1;  //General Purpose Register R1. 16 bits.
+    private int r2;  //General Purpose Register R2. 16 bits.
+    private int r3;  //General Purpose Register R3. 16 bits.
 
 
+    //-----initialize all the registers-----//
     public Registers() {
         this.pc = 6;
         this.ir = 0;
@@ -36,6 +48,7 @@ public class Registers {
         this.r3 = 0;
     }
 
+    //-----reset all the registers-----//
     public void resetAllRegisters() {
         this.pc = 0;
         this.ir = 0;
@@ -106,7 +119,7 @@ public class Registers {
         this.mfr = mfr;
     }
 
-    //Get and set about x1,x2,x3
+    //-----Get and set about x1,x2,x3
     public int getX1() {
         return x1;
     }
@@ -222,7 +235,7 @@ public class Registers {
         return -1;
     }
 
-    //------About IR-----//
+    //-----About IR-----//
     public int getIr() {
         return ir;
     }
